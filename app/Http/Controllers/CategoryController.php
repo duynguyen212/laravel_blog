@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Category;
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
 
 class CategoryController extends Controller
 {
@@ -14,7 +15,7 @@ class CategoryController extends Controller
      */
     public function index()
     {
-        $category = Category::all();
+        $category = Category::paginate(10);
         return view('admin.category.index', compact('category'));
     }
 
@@ -25,7 +26,7 @@ class CategoryController extends Controller
      */
     public function create()
     {
-        //
+        return view ('admin.category.create');
     }
 
     /**
@@ -36,7 +37,17 @@ class CategoryController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        //dd($request->all());
+        $this->validate($request, [
+            'name' => 'required|min:3'
+        ]);
+
+        $post = Category::create([
+            'name' => $request->name,
+            'slug' => Str::slug($request->name)
+        ]);
+        //return redirect('category');
+        return redirect()->back()->with('success', 'Category is added successfully!');
     }
 
     /**
@@ -58,7 +69,8 @@ class CategoryController extends Controller
      */
     public function edit($id)
     {
-        //
+        $category = Category::findorfail($id);
+        return view('admin.category.edit', compact('category'));
     }
 
     /**
@@ -70,7 +82,18 @@ class CategoryController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $this->validate($request, [
+            'name' => 'required|min:3'
+        ]);
+
+        $category_data = [
+            'name' => $request->name,
+            'slug' => Str::slug($request->name)
+        ];
+
+        Category::whereId($id)->update($category_data);
+        
+        return redirect()->route('category.index')->with('success', 'Category was updated successfully!');
     }
 
     /**
@@ -81,6 +104,8 @@ class CategoryController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $category = Category::findorfail($id);
+        $category->delete();
+        return redirect()->back()->with('success', 'Category was deleted successfully!');
     }
 }
