@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Category;
 use Illuminate\Http\Request;
+use App\Tags;
 use Illuminate\Support\Str;
 
-class CategoryController extends Controller
+class TagController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -15,8 +15,8 @@ class CategoryController extends Controller
      */
     public function index()
     {
-        $category = Category::paginate(10);
-        return view('admin.category.index', compact('category'));
+        $tags = Tags::paginate(10); 
+        return view('admin.tag.index', compact('tags'));
     }
 
     /**
@@ -26,7 +26,7 @@ class CategoryController extends Controller
      */
     public function create()
     {
-        return view ('admin.category.create');
+        return view('admin.tag.create');
     }
 
     /**
@@ -37,17 +37,15 @@ class CategoryController extends Controller
      */
     public function store(Request $request)
     {
-        //dd($request->all());
         $this->validate($request, [
-            'name' => 'required|min:3'
+            'name' => 'required|min:3|max:20'
         ]);
 
-        $post = Category::create([
+       Tags::create([
             'name' => $request->name,
             'slug' => Str::slug($request->name)
         ]);
-        //return redirect('category');
-        return redirect()->back()->with('success', 'Category was added successfully!');
+        return redirect()->back()->with('success', 'Tag was added successfully!');
     }
 
     /**
@@ -69,8 +67,8 @@ class CategoryController extends Controller
      */
     public function edit($id)
     {
-        $category = Category::findorfail($id);
-        return view('admin.category.edit', compact('category'));
+        $tag = Tags::findorfail($id);
+        return view('admin.tag.edit', compact('tag'));
     }
 
     /**
@@ -83,17 +81,17 @@ class CategoryController extends Controller
     public function update(Request $request, $id)
     {
         $this->validate($request, [
-            'name' => 'required|min:3'
+            'name' => 'required|min:3|max:20'
         ]);
 
-        $category_data = [
+        $tag_data = [
             'name' => $request->name,
             'slug' => Str::slug($request->name)
         ];
 
-        Category::whereId($id)->update($category_data);
+        Tags::whereId($id)->update($tag_data);
         
-        return redirect()->route('category.index')->with('success', 'Category was updated successfully!');
+        return redirect()->route('tag.index')->with('success', 'Tag was updated successfully!');
     }
 
     /**
@@ -104,8 +102,8 @@ class CategoryController extends Controller
      */
     public function destroy($id)
     {
-        $category = Category::findorfail($id);
-        $category->delete();
-        return redirect()->back()->with('success', 'Category was deleted successfully!');
+        $tag = Tags::findorfail($id);
+        $tag->delete();
+        return redirect()->back()->with('success', 'Tag was deleted successfully!');
     }
 }
