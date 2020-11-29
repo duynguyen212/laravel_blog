@@ -36,7 +36,15 @@
                 </a>
                 <ul class="dropdown-menu">
                   <li><a class="nav-link" href="{{ route('post.index') }}">List of Posts</a></li>                  
-                  <li><a class="nav-link" href="{{ route('post.trashed') }}">List of trashed posts</a></li>                  
+                  <li><a class="nav-link" href="{{ route('post.trashed') }}">List of trashed posts</a></li>      
+                </ul>
+              </li>              
+              <li class="nav-item dropdown">
+                <a href="#" class="nav-link has-dropdown" data-toggle="dropdown">
+                  <i class="fas fa-users"></i> <span>Users</span>
+                </a>
+                <ul class="dropdown-menu">
+                  <li><a class="nav-link" href="{{ route('post.index') }}">List of Users</a></li>
                 </ul>
               </li>              
             </ul>  

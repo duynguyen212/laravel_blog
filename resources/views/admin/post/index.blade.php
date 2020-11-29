@@ -1,7 +1,7 @@
 @extends('template_backend.home')
 @section('sub-title', 'Post')
 @section('content')
-    <h2>Listof posts</h2>    
+    <h2>List of posts</h2>    
      @if (Session::has('success'))
         <div class="alert alert-success alert-dismissible">
              <button type="button" class="close" data-dismiss="alert" aria-label="Close">
@@ -23,6 +23,7 @@
             <th>Title</th>
             <th>Category</th>
             <th>Tags</th>
+            <th>Author</th>
             <th>Thumbnail</th>  
             <th>Action</th>
         </thead>
@@ -34,10 +35,11 @@
                     <td>{{$r->category->name}}</td>
                     <td> @foreach ($r->tags as $tag)
                         <ul>
-                            <li> {{ $tag->name }} </li>                    
+                            <h6><span class="badge badge-info">{{ $tag->name }}</span></h6>            
                         </ul>        
                     @endforeach                       
                     </td>
+                    <td>{{ $r->users->name }}</td>
                     <td><img src="{{ asset($r->picture) }}" class="img-fluid" width="100px" /></td>
                     <td>                      
                         <form action="{{ route('post.destroy', $r->id) }}" method="POST">
