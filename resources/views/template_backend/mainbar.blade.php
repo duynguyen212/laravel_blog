@@ -44,7 +44,7 @@
                   <i class="fas fa-users"></i> <span>Users</span>
                 </a>
                 <ul class="dropdown-menu">
-                  <li><a class="nav-link" href="{{ route('post.index') }}">List of Users</a></li>
+                  <li><a class="nav-link" href="{{ route('user.index') }}">List of Users</a></li>
                 </ul>
               </li>              
             </ul>  
